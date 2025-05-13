@@ -1,0 +1,74 @@
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Commissioner:wght,FLAR@100,0;400,0;400,100;700,0;700,100;900,0&display=swap');
+
+
+/*$font-family-sans-serif: 'Commissioner', sans-serif; */
+
+
+$presentation-font-size-root: 34px;
+$body-bg: $theme-bg;
+$body-color: $theme-fg;
+$link-color: lighten($theme-bg, 30%);
+$presentation-heading-color:  darken($theme-fg, 10%);
+
+
+/*-- scss:rules --*/
+
+.reveal h1, .reveal h2 {
+  font-variation-settings: "FLAR" 100;
+}
+
+.reveal h2 {
+  margin-top: -5px;
+}
+
+.has-light-background h2 {
+  color: lighten($theme-bg, 15%) !important;
+}
+
+
+.reveal .slide ul li, .reveal .slide ol li {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+
+.reveal .r-stack>* {
+  margin: 0;
+}
+
+strong {
+  color: lighten($theme-accent5, 40%);
+}
+
+.reveal .footer {
+  display: block;
+  position: fixed;
+  bottom: 18px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px !important;
+  z-index: 2;
+}
+
+.reveal .footer a {
+  color: lighten($theme-bg, 15%) !important;
+}
+
+.reveal .slide-number {
+  color: lighten($theme-bg, 15%) !important;
+}
+
+.accent1 {
+  color: $theme-accent1;
+}
+
+.accent2 {
+  color: $theme-accent2;
+}
+
+.accent3 {
+  color: $theme-accent3;
+}

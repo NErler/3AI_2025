@@ -1,0 +1,187 @@
+/*-- scss:rules --*/
+
+
+#title-slide {
+  text-align: right;
+  height: 100%;
+}
+
+.reveal .quarto-title-block .quarto-title-authors {
+  text-align: right;
+}
+
+
+#title-slide .title {
+  color: #b0d6f8;
+  margin-top: 30px
+}
+
+
+#title-slide .subtitle {
+  color: #5c83c5;
+  position: fixed;
+  right: 0;
+  top: 200px;
+  font-weight: 600;
+  font-size: 3.5rem;
+}
+
+
+#title-slide .date {
+  color: #5c83c5;
+  font-size: 1.5rem;
+  position: fixed;
+  right: 0;
+  bottom: 50px;
+}
+
+
+#title-slide .authorblock {
+  color: #5c83c5;
+  position: fixed;
+  bottom: 0;
+  text-align: left;
+  font-size: 1.5rem;
+}
+
+#title-slide .author {
+  color: #b0d6f8;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+
+
+#title-slide .contact {
+  color: #5c83c5;
+  position: absolute;
+  bottom: -45px;
+  width: 100%;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+#title-slide .contact a {
+  color: #5c83c5;
+}
+
+
+
+strong {
+  font-weight: bold;
+  color: inherit;
+}
+
+.h1section {
+  font-size: 3.5 rem;
+  text-align: center;
+}
+
+.sgrey {
+  font-size: 1.6rem;
+  color: lighten($nord3, 20%);
+}
+
+.red {
+  color: $nord11;
+}
+.blue {
+  color: $nord10;
+}
+.green {
+  color: $nord14;
+}
+
+.bigdata {
+  font-size: 8rem;
+}
+
+.quoteauthor {
+  text-align: right;
+  font-size: 1.6rem;
+}
+
+#arrow1 {
+  position: absolute;
+  top: 25%;
+  left: 46%;
+  height: 450px !important;
+  width: 60px !important;
+}
+
+#arrow2a {
+  position: absolute;
+  top: 27%;
+  left: 46%;
+  height: 130px !important;
+  width: 60px !important;
+}
+
+#arrow2b {
+  position: absolute;
+  top: 48%;
+  left: 46%;
+  height: 130px !important;
+  width: 60px !important;
+}
+
+#arrow2c {
+  position: absolute;
+  top: 70%;
+  left: 46%;
+  height: 130px !important;
+  width: 60px !important;
+}
+
+
+#arrow3 {
+  position: absolute;
+  top: -17%;
+  left: 68%;
+  height: 480px !important;
+  width: 60px !important;
+  transform: rotate(90deg);
+}
+
+#arrow4 {
+  position: absolute;
+  top: -8%;
+  left: 57%;
+  height: 360px !important;
+  width: 60px !important;
+  transform: rotate(90deg);
+}
+
+
+.datatab {
+  font-size: 18px !important;
+}
+
+.datatablarge {
+  font-size: 26px !important;
+}
+
+
+.datatab tr td{
+  border-bottom: 1px solid $nord1;
+}
+
+.datatablarge tr td{
+  border-bottom: 1px solid $nord1;
+}
+
+
+.datatab-scen {
+  font-size: 28px !important;
+}
+.datatab-scen tr td{
+  border-bottom: 1px solid $nord1;
+}
+
+
+#wearable {
+  position: absolute;
+  right: 0%;
+  height: 500px;
+}
+

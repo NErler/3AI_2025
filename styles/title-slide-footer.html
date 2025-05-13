@@ -1,0 +1,39 @@
+
+
+<script type="text/javascript" charset="utf-8">
+  function add_custom_footer() {
+    
+    let title_slide = document.querySelector("section#title-slide");
+    let title_slide_footer = title_slide.getAttribute('data-footer');
+    let footer = document.querySelector('div.footer p');
+    let global_footer_text = footer.innerHTML;
+    let mbutton = document.querySelector('div.slide-menu-button a i');
+    let global_button = mbutton.innerHTML;
+    
+    if (title_slide.classList.contains('present')) {
+      footer.innerHTML = title_slide_footer;
+      footer.setAttribute('id', 'title-slide-footer')
+      
+      mbutton.innerHTML = "";
+      mbutton.setAttribute('id', 'title-slide-menu-button')
+    }
+    
+    Reveal.on( 'slidechanged' , event => {
+        if (event.currentSlide.matches('#title-slide')) {
+          footer.innerHTML = title_slide_footer;
+          footer.setAttribute('id', 'title-slide-footer')
+          
+          mbutton.innerHTML = "";
+          mbutton.setAttribute('id', 'title-slide-menu-button')
+        } else {
+          footer.innerHTML = global_footer_text;
+          mbutton.innerHTML = global_button;
+          mbutton.setAttribute('id', 'regular-menu-button')
+        }
+      });
+  };
+  
+  window.addEventListener("load", (event) => {
+    add_custom_footer();
+  });
+</script>
