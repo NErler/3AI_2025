@@ -74,7 +74,12 @@ strong {
 
 .h1section {
   font-size: 3.5 rem;
+  margin: 0;
+  position: absolute;
+  top: 50%;
   text-align: center;
+  -ms-transform: translateY(-50%), translateX(-50%);
+  transform: translateY(-50%), translateX(-50%);
 }
 
 .sgrey {
