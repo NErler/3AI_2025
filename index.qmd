@@ -400,7 +400,7 @@ p0 +
 ## Example: Non-linear Trajectories
 
 ```{r pbc-example-setup}
-#| cache: true
+#| eval: false
 
 dat <- JointAI::PBC
 dat$time <- dat$day/365.25
@@ -424,10 +424,13 @@ ndf <- expand.grid(time = seq(0, 12, length = 80),
 ndf$pred_f <- predict(fit0, newdata = ndf, re.form = ~ 0)
 ndf$pred_rd <- predict(fit0, newdata = ndf, re.form = NULL)
 
+save(dat, fit0, ids, ndf, file = "pbcprep.RData")
 ```
 
 
 ```{r bili-fit-fixed}
+load("pbcprep.RData")
+
 subset(dat, id %in% ids) %>%
   ggplot(aes(x = time, y = log(bili))) +
   geom_point(alpha = 0.5) +

@@ -1,0 +1,75 @@
+#arrow1 {
+  position: absolute;
+  top: 18%;
+  left: 40%;
+  height: 500px !important;
+  width: 60px !important;
+}
+
+#arrow2a {
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  height: 155px !important;
+  width: 60px !important;
+}
+
+#arrow2b {
+  position: absolute;
+  top: 45%;
+  left: 40%;
+  height: 155px !important;
+  width: 60px !important;
+}
+
+#arrow2c {
+  position: absolute;
+  top: 70%;
+  left: 40%;
+  height: 155px !important;
+  width: 60px !important;
+}
+
+
+#arrow3 {
+  position: absolute;
+  top: -30%;
+  left: 70%;
+  height: 545px !important;
+  width: 60px !important;
+  transform: rotate(90deg);
+}
+
+#arrow4 {
+  position: absolute;
+  top: -19%;
+  left: 48%;
+  height: 400px !important;
+  width: 60px !important;
+  transform: rotate(90deg);
+}
+
+
+.datatab {
+  font-size: 16px !important;
+}
+
+.datatab-large {
+  font-size: 26px !important;
+}
+
+
+.datatab tr td{
+  border-bottom: 1px solid lightgrey;
+}
+
+.datatab-large tr td{
+  border-bottom: 1px solid lightgrey;
+}
+
+
+#wearable {
+  position: absolute;
+  right: 0%;
+  height: 500px;
+}
