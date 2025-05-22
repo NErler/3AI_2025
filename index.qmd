@@ -1228,7 +1228,9 @@ data.frame(N = 1000,
 [**Empirical Bayes**]{.blue} estimate:
 
 $$\mathbf{\hat b}_i = \widehat{\mathbf D} \mathbf Z_i^\top 
-\color{var(--nord11)}{\left(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top + \sigma^2 \mathbf I\right)^{-1}} (\mathbf y_i - \mathbf x_i^\top \boldsymbol{\hat\beta})$$
+{\color{var(--nord11)}{\left(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top + 
+\sigma^2 \mathbf I\right)^{-1}}}
+(\mathbf y_i - \mathbf x_i^\top \boldsymbol{\hat\beta})$$
 
 $\mathbf Z_i$ may be (very) large, e.g. 20 000 rows
 
