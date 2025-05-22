@@ -105,6 +105,25 @@ strong {
   font-size: 8rem;
 }
 
+#MMsection {
+  font-size: 3.5rem;
+  text-align: center;
+}
+
+#scalability {
+  font-size: 3.5rem;
+  text-align: center;
+}
+
+#donkey {
+  position: absolute;
+  bottom: 50%;
+  right: 0;
+  height: 200px !important;
+}
+
+
+
 .quoteauthor {
   text-align: right;
   font-size: 1.6rem;
@@ -194,3 +213,10 @@ strong {
   height: 500px;
 }
 
+.fbox {
+  background-color: var(--nord0);
+  padding: 3px 25px;
+  border-radius: 5px;
+  border: solid 2px var(--nord10);
+  position: relative;
+}

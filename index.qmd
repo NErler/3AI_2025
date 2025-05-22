@@ -40,6 +40,10 @@ knitr:
 html-table-processing: none
 ---
 
+# Motivation {.h1section}
+
+<img src = "images/donkey.png" height = 250 id = "donkey">
+
 ```{r packages}
 library("kableExtra")
 library("ggplot2")
@@ -64,6 +68,18 @@ get_color_theme <- function(file) {
 
 get_color_theme("styles/color-theme-nord.scss")
 ```
+
+```{css}
+:root {
+  --nord15: #B48EAD;
+  --nord10: #5E81AC;
+  --nord8: #88C0D0;
+  --nord11: #BF616A;
+  --nord14: #A3BE8C;
+}
+
+```
+
 
 ```{r}
 theme_set(theme_minimal())
@@ -107,15 +123,49 @@ datakbl <- function(x, digits = 1) {
 ```
 
 
-# Motivation {.h1section}
+
 
 ```{r}
-# Motivation: Continuous Monitoring Data
-# - plot with 6 outcomes plotted
-# - info slide with bullets
-# 
-# Section: 
+#| eval: false
+
+datadir <- "/Volumes/Onderzoek_Acute_Geneekunde/22-846_COVERED_C2W/C_PersonalData/1_SourceData"
+load(file.path(datadir, "Files_Nicole_Erler", "dat_clean_2024-11-20.RData"))
+
+sdat <- subset(dat, id == 1111)
+
+sdat %>%
+  ggplot(aes(x = mtime, y = hr)) +
+  geom_point(size = 0.1) +
+  scale_x_continuous("follow-up time (hours)", breaks = seq(0, 120, 24)) +
+  scale_y_continuous("heart rate")
+
+ggsave("images/hr_example_1p.png", width = 6, height = 5, dpi = 600,
+       bg = "transparent", scale = 0.8)
+
+
+sdat %>%
+  select(c(mtime, hr, sbp, dbp, temp, spO2, resp)) %>%
+  reshape2::melt(id.vars = "mtime") %>%
+  ggplot(aes(x = mtime, y = value)) +
+  geom_point(size = 0.1, na.rm = TRUE) +
+  facet_wrap("variable", scales = "free_y",
+             labeller = as_labeller(c("hr" = "heart rate",
+                                      "sbp" = "systolic blood pressure",
+                                      "dbp" = "diastolic blood pressure",
+                                      "temp" = "body temperature",
+                                      "resp" = "respiratory rate",
+                                      "spO2" = "oxygen saturation"))) +
+  scale_x_continuous("follow-up time (hours)", breaks = seq(0, 200, 24)) +
+  theme(strip.text = element_text(face = "bold", size = 10),
+        plot.margin = margin(10, 10, 30, 10, unit = "pt"))
+
+ggsave("images/pat1111.png", width = 8, height = 4.5, dpi = 600)
+
 ```
+
+
+## {background-image="images/pat1111.png" background-color="$theme_bg" background-size="contain"}
+
 
 ## My Data: Continuous Monitoring
 
@@ -123,22 +173,28 @@ datakbl <- function(x, digits = 1) {
 
 <br>
 
-Patients at the general nursing ward.
+Approx. 1000 patients at the general nursing ward.
 
 <br>
 
-Repeated measurements (every 20 sec) of
+* repeated measurements of 6 vital parameters
+* follow-up: 1 hr - 27 days
 
-* heart rate
-* blood pressure
-* body temperature
-* oxygen saturation
-* respiration
-* ...
+:::{.fragment}
+
+* measurements every 20 seconds
+  * 180 obs./hour &#8680; 4320 obs./day
+  * 67 - 108551 obs./patient (per parameter)
+:::
+
+:::{.fragment}
+&#8680; 9.3 million rows
+
+&#8680; 32.6 million observations
+:::
 
 
-
-# The Linear Mixed Model{.h1section}
+# The Linear Mixed Model {background-image="images/mixture_colors.jpg" background-size="cover" background-color="black" background-opacity=0.6 .center id="MMsection"}
 
 ## Data for Mixed Models
 
@@ -270,7 +326,7 @@ $$y_i(t) = \underset{\text{fixed effects}}{\underbrace{\beta_0 + \beta_1 t}} +
 with
 $$\mathbf b_i = \begin{bmatrix}
 b_{i0}\\b_{i1}
-\end{bmatrix} \sim N\left( \begin{bmatrix}0\\0\end{bmatrix}, \begin{bmatrix}d_{11} & d_{12}\\d_{21} & d_{22}\end{bmatrix}\right)
+\end{bmatrix} \sim N\left( \begin{bmatrix}0\\0\end{bmatrix}, \begin{bmatrix}d_{11} & d_{12}\\d_{12} & d_{22}\end{bmatrix}\right)
 $$
 
 
@@ -638,59 +694,9 @@ kable(temp, digits = 1, escape = FALSE, format = "html",
 :::
 ::::
 
-## My Data: Continuous Monitoring
-
-::::{.columns}
-
-:::{.column width="45%"}
-
-<br>
-
-* N = 916 patients (for now...)
-* follow-up: 1 hr - 27 days
-* measurements every 20 seconds
-  * 180 obs./hour &#8680; 4320 obs./day
-
-&#8680; 9.3 million rows
-
-:::{.fragment}
-<br>
-
-* 6 outcomes of interest
-:::
-
-:::{.fragment}
-[ &#8680; **Scenario 2** with additional challenges]{.red}
-:::
-
-:::
-
-:::{.column width="55%"}
-
-```{r}
-#| eval: false
-
-datadir <- "/Volumes/Onderzoek_Acute_Geneekunde/22-846_COVERED_C2W/C_PersonalData/1_SourceData"
-load(file.path(datadir, "Files_Nicole_Erler", "dat_clean_2024-11-20.RData"))
-
-sdat = subset(dat, id == 1111)
-
-sdat %>%
-  ggplot(aes(x = mtime, y = hr)) +
-  geom_point(size = 0.1) +
-  scale_x_continuous("follow-up time (hours)", breaks = seq(0, 120, 24)) +
-  scale_y_continuous("heart rate")
-
-ggsave("images/hr_example_1p.png", width = 6, height = 5, dpi = 600,
-       bg = "transparent", scale = 0.8)
-```
-
-<img src="images/hr_example_1p.png" id = "hr">
-:::
-::::
 
 
-# Scalability {.center .middle}
+# Scalability {background-image="images/mandelbrot.jpg" background-size="cover" background-color="black" background-opacity=0.5 .center id="scalability"}
 
 ## Scenario 1 & 2: Number of Observations
 
@@ -757,7 +763,7 @@ data.frame(N = c(1000, 10000, 100000, 1e6, 10e6),
   kable(format = "html", table.attr = "class='datatab'") %>%
   add_header_above(c("data" = 2, "parameters" = 4)) %>%
   column_spec(1, background = darken(nord10, 0.2)) %>%
-  column_spec(6, color = darken(nord10, 0.3))
+  column_spec(6, color = lighten(nord10, 0.2))
            
 ```
 
@@ -830,10 +836,16 @@ rbind(
 Conditional formulation, given the [unobserved random effects $\mathbf b_i$]{.blue .strong}:
 
 $$\mathbf y_i \color{var(--nord10)}{\mid \mathbf b_i} \sim N\left(\mathbf X_i \boldsymbol\beta \color{var(--nord10)}{+ \mathbf Z_i\mathbf b_i},\; \sigma^2 \mathbf I\right)$$
+
+:::{.fragment}
 **Integrating** over the random effects...
 $$f(\mathbf y_i) = \color{var(--nord11)}{\int} f(\mathbf y_i \mid \mathbf b_i)\; f(\mathbf b_i) \; \color{var(--nord11)}{d\mathbf b_i}$$
+:::
+
+:::{.fragment}
 ...results in the **marginal model**:
 $$\mathbf y_i \sim N(\mathbf X_i \boldsymbol\beta,\; \color{var(--nord14)}{\mathbf Z_i \mathbf D \mathbf Z_i^\top} + \sigma^2 \mathbf I)$$
+:::
 
 :::{.fragment}
 
@@ -1055,7 +1067,7 @@ subset(times_rd, N == 50) %>%
 
 $$y_{ij} = \beta_0  + \beta_1 t_{ij} + \ldots + \beta_p t_{ij}^p +
 \bbox[#906E8A, 8px]{b_{i0} + b_{i1} t_{ij} + \ldots b_{ip} t_{ij}^p} + 
-\varepsilon_{ij}, \quad {\scriptsize\begin{array}{l}i = 1,\ldots, N\\j = 1,\ldots, J\end{array}}$$
+\varepsilon_{ij}, \quad {\scriptsize\begin{array}{l}i = 1,\ldots, 50\\j = 1,\ldots, 100\end{array}}$$
 
 ::::{.columns}
 :::{.column width="50%"}
@@ -1083,8 +1095,8 @@ data.frame(N = 50,
 
 ```{r}
 pl0 <- data.frame(
-  N = 10,
-  J = 10000,
+  N = 50,
+  J = 100,
   sig = 1,
   beta = 2,
   rd = c(1:100)) %>%
@@ -1092,7 +1104,8 @@ pl0 <- data.frame(
     obs = N * J,
     b = N * rd,
     d = (rd^2 + rd)/2,
-    pars = sig + beta + b + d
+    pars = sig + beta + b + d,
+    pars2 = pars - b,
   ) %>%
   ggplot(aes(x = rd, y = pars)) +
   geom_line(color = nord15) +
@@ -1110,9 +1123,9 @@ pl0 <- data.frame(
 #| out-width: 85%
 
 pl0 +
-    # coord_fixed(ratio = 0.002) +
-    scale_x_continuous("number of random effects terms",
-                       breaks = seq(0, 250, 20))
+  scale_x_continuous("number of random effects terms",
+                     breaks = seq(0, 250, 20)) +
+  geom_line(aes(y = pars2), linetype = 2, color = nord4)
 
 ```
 :::
@@ -1123,7 +1136,7 @@ pl0 +
 
 <br>
 
-**Scenario 1 & 2: Many clusters/patients or many repeated measurements**
+[**Scenario 1 & 2: Many clusters/patients or many repeated measurements**]{.blue}
 
 * LMM probably feasible
 * for extreme $N$: split the data, fit models in parallel, combine
@@ -1132,18 +1145,18 @@ pl0 +
 <br>
 
 :::{.fragment}
-**Scenario 3: Many covariates**
+[**Scenario 3: Many covariates**]{.blue}
 
 * LMM probably feasible
 * regularization (e.g., ridge, lasso) may be a good idea
 
 :::
 
-## Conclusion
+## Conclusion {id="conclusion4"}
 
 <br>
 
-**Scenario 4: Many outcome variables**
+[**Scenario 4: Many outcome variables**]{.blue}
 
 * Potentially serious challenges!
 * LMM feasible for small $K$ and few random effects terms
@@ -1152,91 +1165,27 @@ pl0 +
 :::{.fragment}
 Alternatives to the full multivariate model:
 
-* stacking the data & use interaction with outcome indicator
-* pairwise approach
+* [stacking the data](#datastacking) & use interaction with outcome indicator
+* [pairwise approach](#pairwise)
 * simplify the structure of $\mathbf D$ (e.g., diagonal)
 
 :::
-
-## Stacking the Data
-
-```{r}
-
-temp = data.frame(
-  id = c(1, "\\(\\vdots\\)", 1, 1, "\\(\\vdots\\)", 1, 2,"\\(\\vdots\\)"),
-  "\\(\\color{var(--nord11)}{k}\\)" = c(rep(paste0("y", 1:2), each = 3), "y1", "y1"),
-  time = c(0, "\\(\\vdots\\)", 9.3, 0, "\\(\\vdots\\)", 7.8, 0, "\\(\\vdots\\)"),
-  check.names = FALSE
-)
-
-
-```
-
-::::{.columns}
-:::{.column width="60%"}
-Interaction with an indicator variable:
-<br>
-$$
-\begin{align} y_{ij} = & (\beta_0 + b_{i01}) + (\beta_1 + b_{i11}) t_{ij} \\
-& + (\beta_2  + b_{i02})\ I(\color{var(--nord11)}{k = 2}) + 
- (\beta_3  + b_{i12})\ I(\color{var(--nord11)}{k = 2})t_{ij}\\
-  & + \ldots +\\
-&  + (\beta_{p-1}  + b_{i0K})\ I(\color{var(--nord11)}{k = K})  + 
- (\beta_p + b_{i1K})\ I(\color{var(--nord11)}{k = K}) t_{ij}\\
-& + \varepsilon_{ij}
-\end{align}
-$$
-
-&#8680; specify weights to accommodate $\sigma_\color{var(--nord11)}{1}, \ldots, \sigma_\color{var(--nord11)}{K}$
-:::
-
-:::{.column width="40%"}
-
-```{r}
-kable(temp, digits = 1, escape = FALSE, format = "html", 
-      table.attr = "class='datatab-scen'") %>%
-  row_spec(4:6, background = lighten(theme_bg, 0.02))
-```
-:::
-::::
-
-:::{.fragment}
-::::{.columns}
-:::{.column width="50%"}
-[{{< fa regular smile >}}]{.green} standard LMM software<br>
-[{{< fa regular smile >}}]{.green} works for unbalanced data
-:::
-
-:::{.column width="50%"}
-[{{< fa regular frown >}}]{.red} only for outcomes of the same type
-:::
-::::
-
-:::
-
-## Pairwise approach
-
-Fit models for all pairs of outcomes:
-$$(y_1, y_2), (y_1, y_3), (y_2, y_3), \ldots, (y_{K-1}, y_K)$$
-
-* average parameters estimated in multiple models
-  e.g., $\beta_{11}$ is estimated in $(y_1, y_2)$, $(y_1, y_3)$, ...
-  
-* Pairwise models can be run in parallel.
-* Doesn't work in joint models.
 
 
 ## Conclusion
 
 <br>
 
-**Scenario 5: Random Effect Terms**
+[**Scenario 5: Random Effect Terms**]{.blue}
 
-* feasible for moderate number of random effects terms (e.g., &le; 10) and 
+* feasible for moderate number of random effects terms (e.g., 10) and 
   sample size (e.g., N = 1000)
 * larger models/data may require simplification of $\mathbf D$
 
+<br>
 
+:::{.fragment}
+**My Model:**
 
 ```{r}
 
@@ -1252,29 +1201,47 @@ data.frame(N = 1000,
          "\\(\\# \\mathbf b\\)" = fmt(rd * N * K),
          N = fmt(N)) %>%
   select(N, J, K, `# obs`, everything()) %>%
-  kable(format = "html", table.attr = "class='datatab'") %>%
+  kable(format = "html", table.attr = "class='datatablarge'") %>%
   add_header_above(c("data" = 4, " ", "parameters" = 4)) %>%
   column_spec(3, background = darken(nord11, 0.2)) %>%
   column_spec(8, color = lighten(nord11, 0.15))
 
 ```
+:::
 
 
 
-# More Challenges!
+# More Challenges!<br>(And Solutions?) {background-image="images/balancing.jpg" background-size="cover" background-color="black" background-opacity=0.8 .center id="challenges"}
+
+
+
+## Dynamic Prediction{background-image="images/dynpred_hr_7703.gif" background-size="contain" background-color="white"}
 
 
 ## Estimation of the Random Effects
 
-**Empirical Bayes** estimate:
+<br>
 
-$$\mathbf{\hat b}_i = \widehat{\mathbf D} \mathbf Z_i^\top \left(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top + \sigma^2 \mathbf I\right)^{-1} (\mathbf y_i - \mathbf x_i^\top \boldsymbol{\hat\beta})$$
+[**Empirical Bayes**]{.blue} estimate:
 
-* $\widehat{\mathbf D}$ is a $10 \times 10$ matrix
-* $\mathbf Z_i$ is a $10\ 000 \times 10$ matrix
+$$\mathbf{\hat b}_i = \widehat{\mathbf D} \mathbf Z_i^\top 
+\color{var(--nord11)}{\left(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top + \sigma^2 \mathbf I\right)^{-1}} (\mathbf y_i - \mathbf x_i^\top \boldsymbol{\hat\beta})$$
 
-&#8680; $\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top$ is $10\ 000 \times 10\ 000$ (or larger)
+$\mathbf Z_i$ may be (very) large, e.g. 20 000 rows
 
+&#8680; $\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top$ is also very large!!!
+
+:::{.fragment}
+
+<br>
+
+
+**For Dynamic Prediction:**
+
+Re-calculate $\mathbf{\hat b}_i$ repeatedly when new data becomes available, say,
+every 5 minutes.
+
+:::
 
 ## Matrix Inversion
 
@@ -1353,81 +1320,169 @@ tp0 %+% datt +
 :::
 
 
+## The Solution: Kalman Filter
+
+Update $\mathbf{\hat b}_i$ using the previous estimate:
+
+$$
+\mathbf{\hat b_i^{(j)}} = \mathbf{\hat b_i^{(j-1)}} + \mathbf K_i^{(j)} \left(\color{var(--nord14)}{\mathbf{\tilde X}_i^{(j)}}\boldsymbol{\hat\beta} - 
+\color{var(--nord14)}{\mathbf{\tilde Z}_i^{(j)}} \mathbf{\hat b_i^{(k-1)}}\right) 
+$$
+
+where $\mathbf{\widetilde X}_{i}^{(j)}$ and $\mathbf{\widetilde Z}_{i}^{(j)}$ 
+contain only [the new observations]{.green}, i.e., are small!
+
+<br>
+
+:::{.fragment}
+:::{.fbox}
+**Reduction of computation time from 3 months to 7 minutes!!!** (in Julia)
+:::
+:::
 
 
+:::{.sgrey}
+$$
+\mathbf K^{(j)} = \mathbf{\widehat D}^{(j)} \mathbf{\widetilde Z}_{i}^{(j)\top} 
+\left(\mathbf{\widetilde Z}_{i}^{(j)} \mathbf{\widehat D}^{(j)} \mathbf{\widetilde Z}_{i}^{(j)\top} +
+\hat{\sigma}^2
+\mathbf I\right)^{-1}
+$$
+$$
+\mathbf{\widehat D}^{(j)} = \left(\mathbf I - \mathbf K^{(j-1)} \mathbf Z_i^{(j-1)}\right)\, \mathbf{\widehat D}^{(j-1)}
+$$
+:::
 
 
-## My Data
+## Non-normal outcomes
 
-```{r}
-#| eval: false
+* Generalized Linear Mixed Model (like GLM vs LM)
+* no closed-form solution for integrating out random effects
 
-datadir <- "/Volumes/Onderzoek_Acute_Geneekunde/22-846_COVERED_C2W/C_PersonalData/1_SourceData"
-load(file.path(datadir, "Files_Nicole_Erler", "dat_clean_2024-11-20.RData"))
 
-test = subset(dat, !is.na(hr)) %>%
-  reframe(.by = "id",
-          nobs = length(id))
+:::{.fbox}
+Much more computationally intensive!
+:::
 
-#ids = subset(test, nobs < 30000 & nobs > 7000)$id
 
-ids = c(1111, 1010, 1129, 1299, 1202, 1304)
-
-sdat = subset(dat, !is.na(hr) & id %in% ids & mtime <= 84)
-
-sdat %>%
-  subset(id %in% ids) %>%
-  ggplot(aes(x = mtime, y = hr)) +
-  geom_point(size = 0.1, alpha = 0.3) +
-  facet_wrap("id") +
-  scale_y_continuous("heart rate", breaks = seq(0, 250, 50)) +
-  scale_x_continuous("follow-up time (hours)", breaks = seq(0, 120, 24))
-
-ggsave("images/hrexample.png", width = 7, height = 3.5, dpi = 600, scale = 1.2)
-```
-
-<img src="images/hrexample.png" id = "hr">
-
-## My Model 
-
-```{css}
-:root {
-  --nord15: #B48EAD;
-  --nord10: #5E81AC;
-  --nord8: #88C0D0;
-  --nord11: #BF616A;
-  --nord14: #A3BE8C;
-}
-
-```
-
-\begin{align*}
-y_{i}(t) = & \beta_0 + \color{var(--nord15)}{b_{i0}} + (\beta_1 + \color{var(--nord15}{b_{i1}})\; t \;+ \\
-& (\beta_2 + \color{var(--nord15)}{b_{i2}}) \sin\left(2\pi \frac{t\bmod 24}{24}\right) +
-    (\beta_3 + \color{var(--nord15)}{b_{i3}}) \cos\left(2\pi \frac{t\bmod 24}{24}\right) +\\
-& (\beta_4 + \color{var(--nord15)}{b_{i4}}) \sin\left(2\pi \frac{t\bmod 24}{12}\right) + 
-  (\beta_5 + \color{var(--nord15)}{b_{i5}}) \cos\left(2\pi \frac{t\bmod 24}{12}\right) +\\
-& (\beta_6 + \color{var(--nord15)}{b_{i6}}) \;t\sin\left(2\pi \frac{t\bmod 24}{24}\right) + 
-  (\beta_7 + \color{var(--nord15)}{b_{i7}}) \;t\cos\left(2\pi \frac{t\bmod 24}{24}\right) +\\
-& (\beta_8 + \color{var(--nord15)}{b_{i8}}) \;t\sin\left(2\pi \frac{t\bmod 24}{12}\right) +
-  (\beta_9 + \color{var(--nord15)}{b_{i9}}) \;t\cos\left(2\pi \frac{t\bmod 24}{12}\right) +\\
-& \varepsilon_i(t)
-\end{align*}
-
-## My Model
+## Stacking the Data {id="datastacking"}
 
 ```{r}
-visdat = read.csv("images/sincos_viz.csv")
 
-visdat |>
-  # subset(id < 30) |>
-  ggplot(aes(x = time, y = y, group = id, color = factor(id))) +
-  geom_line(linewidth = 1) +
-  scale_color_manual(values = c(nord7, nord15, nord10, nord8, nord9)) +
-  scale_x_continuous("follow-up time (hours)", breaks = seq(0, 150, 24)) +
-  scale_y_continuous("heart rate", breaks = seq(-15, 15, 3)) +
-  theme(legend.position = "none",
-        axis.text.y = element_blank())
+temp = data.frame(
+  id = c(1, "\\(\\vdots\\)", 1, 1, "\\(\\vdots\\)", 1, 2,"\\(\\vdots\\)"),
+  "\\(\\color{var(--nord11)}{k}\\)" = c(rep(paste0("y", 1:2), each = 3), "y1", "y1"),
+  time = c(0, "\\(\\vdots\\)", 9.3, 0, "\\(\\vdots\\)", 7.8, 0, "\\(\\vdots\\)"),
+  check.names = FALSE
+)
+
+
+```
+
+::::{.columns}
+:::{.column width="60%"}
+Interaction with an indicator variable:
+<br>
+$$
+\begin{align} y_{ij} = & (\beta_0 + b_{i01}) + (\beta_1 + b_{i11}) t_{ij} \\
+& + (\beta_2  + b_{i02})\ I(\color{var(--nord11)}{k = 2}) + 
+ (\beta_3  + b_{i12})\ I(\color{var(--nord11)}{k = 2})t_{ij}\\
+  & + \ldots +\\
+&  + (\beta_{p-1}  + b_{i0K})\ I(\color{var(--nord11)}{k = K})  + 
+ (\beta_p + b_{i1K})\ I(\color{var(--nord11)}{k = K}) t_{ij}\\
+& + \varepsilon_{ij}
+\end{align}
+$$
+
+&#8680; specify weights to accommodate $\sigma_\color{var(--nord11)}{1}, \ldots, \sigma_\color{var(--nord11)}{K}$
+:::
+
+:::{.column width="40%"}
+
+```{r}
+kable(temp, digits = 1, escape = FALSE, format = "html", 
+      table.attr = "class='datatab-scen'") %>%
+  row_spec(4:6, background = lighten(theme_bg, 0.02))
+```
+:::
+::::
+
+:::{.fragment}
+::::{.columns}
+:::{.column width="50%"}
+[{{< fa regular smile >}}]{.green} standard LMM software<br>
+[{{< fa regular smile >}}]{.green} works for unbalanced data
+:::
+
+:::{.column width="50%"}
+[{{< fa regular frown >}}]{.red} only for outcomes of the same type
+:::
+::::
+:::
+
+[{{<fa solid arrow-left >}}](#conclusion4)
+
+## Pairwise Approach {id="pairwise"}
+
+Fit models for all pairs of outcomes:
+$$(y_1, y_2), (y_1, y_3), (y_2, y_3), \ldots, (y_{K-1}, y_K)$$
+
+* average parameters estimated in multiple models<br>
+  e.g., $\beta_{11}$ is estimated in $(y_1, y_2)$, $(y_1, y_3)$, ...
+  
+* Pairwise models can be run in parallel.
+* Doesn't work in joint models.
+
+:::{.fragment}
+::::{.columns}
+:::{.column width="50%"}
+[{{< fa regular smile >}}]{.green} Bivariate models can be run in parallel.
+:::
+
+:::{.column width="50%"}
+[{{< fa regular frown >}}]{.red} Doesn't work in joint models.
+:::
+::::
+:::
+
+
+
+<br>
+<br>
+
+[{{<fa solid arrow-left >}}](#conclusion4)
+
+```{r}
+
+# ## My Model 
+# 
+# 
+# \begin{align*}
+# y_{i}(t) = & \beta_0 + \color{var(--nord15)}{b_{i0}} + (\beta_1 + \color{var(--nord15}{b_{i1}})\; t \;+ \\
+# & (\beta_2 + \color{var(--nord15)}{b_{i2}}) \sin\left(2\pi \frac{t\bmod 24}{24}\right) +
+#     (\beta_3 + \color{var(--nord15)}{b_{i3}}) \cos\left(2\pi \frac{t\bmod 24}{24}\right) +\\
+# & (\beta_4 + \color{var(--nord15)}{b_{i4}}) \sin\left(2\pi \frac{t\bmod 24}{12}\right) + 
+#   (\beta_5 + \color{var(--nord15)}{b_{i5}}) \cos\left(2\pi \frac{t\bmod 24}{12}\right) +\\
+# & (\beta_6 + \color{var(--nord15)}{b_{i6}}) \;t\sin\left(2\pi \frac{t\bmod 24}{24}\right) + 
+#   (\beta_7 + \color{var(--nord15)}{b_{i7}}) \;t\cos\left(2\pi \frac{t\bmod 24}{24}\right) +\\
+# & (\beta_8 + \color{var(--nord15)}{b_{i8}}) \;t\sin\left(2\pi \frac{t\bmod 24}{12}\right) +
+#   (\beta_9 + \color{var(--nord15)}{b_{i9}}) \;t\cos\left(2\pi \frac{t\bmod 24}{12}\right) +\\
+# & \varepsilon_i(t)
+# \end{align*}
+# 
+# ## My Model
+
+# visdat = read.csv("images/sincos_viz.csv")
+# 
+# visdat |>
+#   # subset(id < 30) |>
+#   ggplot(aes(x = time, y = y, group = id, color = factor(id))) +
+#   geom_line(linewidth = 1) +
+#   scale_color_manual(values = c(nord7, nord15, nord10, nord8, nord9)) +
+#   scale_x_continuous("follow-up time (hours)", breaks = seq(0, 150, 24)) +
+#   scale_y_continuous("heart rate", breaks = seq(-15, 15, 3)) +
+#   theme(legend.position = "none",
+#         axis.text.y = element_blank())
 ```
 
 
@@ -1435,8 +1490,4 @@ visdat |>
 
 
 
-
-
-
-
-# Thank You{.the-end .center .middle .no-footer}
+# Thank You for Your Attention! {.h1section .the-end .center .middle .no-footer}

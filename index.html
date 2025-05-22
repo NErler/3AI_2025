@@ -32,7 +32,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-8758be09e926d38d2c6a246dc3769005.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-416f181f32e85334a8e34d6f589bf91e.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -147,26 +147,49 @@
 <section>
 <section id="motivation" class="title-slide slide level1 h1section">
 <h1>Motivation</h1>
+<p><img src="images/donkey.png" height="250" id="donkey"></p>
+<div class="cell" data-layout-align="center">
+<style type="text/css">
+:root {
+  --nord15: #B48EAD;
+  --nord10: #5E81AC;
+  --nord8: #88C0D0;
+  --nord11: #BF616A;
+  --nord14: #A3BE8C;
+}
 
+</style>
+</div>
+</section>
+<section id="section" class="slide level2" data-background-image="images/pat1111.png" data-background-color="$theme_bg" data-background-size="contain">
+<h2></h2>
 </section>
 <section id="my-data-continuous-monitoring" class="slide level2">
 <h2>My Data: Continuous Monitoring</h2>
 <p><img src="images/MonitoringDevice.png" id="wearable" height="500"></p>
 <p><br></p>
-<p>Patients at the general nursing ward.</p>
+<p>Approx. 1000 patients at the general nursing ward.</p>
 <p><br></p>
-<p>Repeated measurements (every 20 sec) of</p>
 <ul>
-<li>heart rate</li>
-<li>blood pressure</li>
-<li>body temperature</li>
-<li>oxygen saturation</li>
-<li>respiration</li>
-<li>…</li>
+<li>repeated measurements of 6 vital parameters</li>
+<li>follow-up: 1 hr - 27 days</li>
 </ul>
+<div class="fragment">
+<ul>
+<li>measurements every 20 seconds
+<ul>
+<li>180 obs./hour ⇨ 4320 obs./day</li>
+<li>67 - 108551 obs./patient (per parameter)</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment">
+<p>⇨ 9.3 million rows</p>
+<p>⇨ 32.6 million observations</p>
+</div>
 </section></section>
 <section>
-<section id="the-linear-mixed-model" class="title-slide slide level1 h1section">
+<section id="MMsection" class="title-slide slide level1 center" data-background-image="images/mixture_colors.jpg" data-background-size="cover" data-background-color="black" data-background-opacity="0.6">
 <h1>The Linear Mixed Model</h1>
 
 </section>
@@ -513,7 +536,7 @@ y_{i}(t) =
 <p><span class="math display">\[y_i(t) = \underset{\text{fixed effects}}{\underbrace{\beta_0 + \beta_1 t}} +
   \underset{\text{random effects}}{\underbrace{b_{i0} + b_{i1} t}} + \varepsilon_i(t)\]</span> with <span class="math display">\[\mathbf b_i = \begin{bmatrix}
 b_{i0}\\b_{i1}
-\end{bmatrix} \sim N\left( \begin{bmatrix}0\\0\end{bmatrix}, \begin{bmatrix}d_{11} &amp; d_{12}\\d_{21} &amp; d_{22}\end{bmatrix}\right)
+\end{bmatrix} \sim N\left( \begin{bmatrix}0\\0\end{bmatrix}, \begin{bmatrix}d_{11} &amp; d_{12}\\d_{12} &amp; d_{22}\end{bmatrix}\right)
 \]</span></p>
 </section>
 <section id="mixed-models-visualized" class="slide level2">
@@ -523,19 +546,8 @@ b_{i0}\\b_{i1}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-11-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="fragment">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
 <p><img data-src="index_files/figure-revealjs/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
 </figure>
-</div>
 </div>
 </div>
 </div>
@@ -550,12 +562,23 @@ b_{i0}\\b_{i1}
 </div>
 </div>
 </div>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="mixed-models-visualized-1" class="slide level2">
 <h2>Mixed Models Visualized</h2>
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
 <section id="example-non-linear-trajectories" class="slide level2">
 <h2>Example: Non-linear Trajectories</h2>
 
@@ -1070,36 +1093,9 @@ b_{i0}\\b_{i1}
 </div>
 <p><img src="images/arrow.png" id="arrow4"></p>
 </div></div>
-</section>
-<section id="my-data-continuous-monitoring-1" class="slide level2">
-<h2>My Data: Continuous Monitoring</h2>
-<div class="columns">
-<div class="column" style="width:45%;">
-<p><br></p>
-<ul>
-<li>N = 916 patients (for now…)</li>
-<li>follow-up: 1 hr - 27 days</li>
-<li>measurements every 20 seconds
-<ul>
-<li>180 obs./hour ⇨ 4320 obs./day</li>
-</ul></li>
-</ul>
-<p>⇨ 9.3 million rows</p>
-<div class="fragment">
-<p><br></p>
-<ul>
-<li>6 outcomes of interest</li>
-</ul>
-</div>
-<div class="fragment">
-<p><span class="red">⇨ <strong>Scenario 2</strong> with additional challenges</span></p>
-</div>
-</div><div class="column" style="width:55%;">
-<p><img src="images/hr_example_1p.png" id="hr"></p>
-</div></div>
 </section></section>
 <section>
-<section id="scalability" class="title-slide slide level1 center middle">
+<section id="scalability" class="title-slide slide level1 center" data-background-image="images/mandelbrot.jpg" data-background-size="cover" data-background-color="black" data-background-opacity="0.5">
 <h1>Scalability</h1>
 
 </section>
@@ -1151,7 +1147,7 @@ b_{i0}\\b_{i1}
    <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:left;color: rgba(68, 89, 116, 255) !important;"> 2 000 </td>
+   <td style="text-align:left;color: rgba(120, 153, 197, 255) !important;"> 2 000 </td>
   </tr>
   <tr>
    <td style="text-align:left;background-color: rgba(81, 102, 130, 255) !important;"> 10 000 </td>
@@ -1159,7 +1155,7 @@ b_{i0}\\b_{i1}
    <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:left;color: rgba(68, 89, 116, 255) !important;"> 20 000 </td>
+   <td style="text-align:left;color: rgba(120, 153, 197, 255) !important;"> 20 000 </td>
   </tr>
   <tr>
    <td style="text-align:left;background-color: rgba(81, 102, 130, 255) !important;"> 100 000 </td>
@@ -1167,7 +1163,7 @@ b_{i0}\\b_{i1}
    <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:left;color: rgba(68, 89, 116, 255) !important;"> 200 000 </td>
+   <td style="text-align:left;color: rgba(120, 153, 197, 255) !important;"> 200 000 </td>
   </tr>
   <tr>
    <td style="text-align:left;background-color: rgba(81, 102, 130, 255) !important;"> 1.0 mil </td>
@@ -1175,7 +1171,7 @@ b_{i0}\\b_{i1}
    <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:left;color: rgba(68, 89, 116, 255) !important;"> 2.0 mil </td>
+   <td style="text-align:left;color: rgba(120, 153, 197, 255) !important;"> 2.0 mil </td>
   </tr>
   <tr>
    <td style="text-align:left;background-color: rgba(81, 102, 130, 255) !important;"> 10.0 mil </td>
@@ -1183,7 +1179,7 @@ b_{i0}\\b_{i1}
    <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 1 </td>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:left;color: rgba(68, 89, 116, 255) !important;"> 20.0 mil </td>
+   <td style="text-align:left;color: rgba(120, 153, 197, 255) !important;"> 20.0 mil </td>
   </tr>
 </tbody>
 </table>
@@ -1261,7 +1257,13 @@ b_{i0}\\b_{i1}
 <section id="parameter-estimation-in-the-linear-mixed-model" class="slide level2">
 <h2>Parameter Estimation in the (Linear) Mixed Model</h2>
 <p>Conditional formulation, given the <span class="blue strong">unobserved random effects <span class="math inline">\(\mathbf b_i\)</span></span>:</p>
-<p><span class="math display">\[\mathbf y_i \color{var(--nord10)}{\mid \mathbf b_i} \sim N\left(\mathbf X_i \boldsymbol\beta \color{var(--nord10)}{+ \mathbf Z_i\mathbf b_i},\; \sigma^2 \mathbf I\right)\]</span> <strong>Integrating</strong> over the random effects… <span class="math display">\[f(\mathbf y_i) = \color{var(--nord11)}{\int} f(\mathbf y_i \mid \mathbf b_i)\; f(\mathbf b_i) \; \color{var(--nord11)}{d\mathbf b_i}\]</span> …results in the <strong>marginal model</strong>: <span class="math display">\[\mathbf y_i \sim N(\mathbf X_i \boldsymbol\beta,\; \color{var(--nord14)}{\mathbf Z_i \mathbf D \mathbf Z_i^\top} + \sigma^2 \mathbf I)\]</span></p>
+<p><span class="math display">\[\mathbf y_i \color{var(--nord10)}{\mid \mathbf b_i} \sim N\left(\mathbf X_i \boldsymbol\beta \color{var(--nord10)}{+ \mathbf Z_i\mathbf b_i},\; \sigma^2 \mathbf I\right)\]</span></p>
+<div class="fragment">
+<p><strong>Integrating</strong> over the random effects… <span class="math display">\[f(\mathbf y_i) = \color{var(--nord11)}{\int} f(\mathbf y_i \mid \mathbf b_i)\; f(\mathbf b_i) \; \color{var(--nord11)}{d\mathbf b_i}\]</span></p>
+</div>
+<div class="fragment">
+<p>…results in the <strong>marginal model</strong>: <span class="math display">\[\mathbf y_i \sim N(\mathbf X_i \boldsymbol\beta,\; \color{var(--nord14)}{\mathbf Z_i \mathbf D \mathbf Z_i^\top} + \sigma^2 \mathbf I)\]</span></p>
+</div>
 <div class="fragment">
 <div style="text-align: center;">
 <p><span class="green"><i class="fa-regular fa-smile" aria-label="smile"></i></span> fewer parameters to estimate    <span class="red"><i class="fa-regular fa-frown" aria-label="frown"></i></span> integration</p>
@@ -1503,7 +1505,7 @@ y_{ij\color{var(--nord11)}{K}} &amp;=&amp;\beta_{0\color{var(--nord11)}{K}} + \b
 <h2>Scenario 5 (!): Random Effect Terms</h2>
 <p><span class="math display">\[y_{ij} = \beta_0  + \beta_1 t_{ij} + \ldots + \beta_p t_{ij}^p +
 \bbox[#906E8A, 8px]{b_{i0} + b_{i1} t_{ij} + \ldots b_{ip} t_{ij}^p} +
-\varepsilon_{ij}, \quad {\scriptsize\begin{array}{l}i = 1,\ldots, N\\j = 1,\ldots, J\end{array}}\]</span></p>
+\varepsilon_{ij}, \quad {\scriptsize\begin{array}{l}i = 1,\ldots, 50\\j = 1,\ldots, 100\end{array}}\]</span></p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
@@ -1618,7 +1620,7 @@ y_{ij\color{var(--nord11)}{K}} &amp;=&amp;\beta_{0\color{var(--nord11)}{K}} + \b
 <section id="conclusion" class="slide level2">
 <h2>Conclusion</h2>
 <p><br></p>
-<p><strong>Scenario 1 &amp; 2: Many clusters/patients or many repeated measurements</strong></p>
+<p><span class="blue"><strong>Scenario 1 &amp; 2: Many clusters/patients or many repeated measurements</strong></span></p>
 <ul>
 <li>LMM probably feasible</li>
 <li>for extreme <span class="math inline">\(N\)</span>: split the data, fit models in parallel, combine</li>
@@ -1626,17 +1628,17 @@ y_{ij\color{var(--nord11)}{K}} &amp;=&amp;\beta_{0\color{var(--nord11)}{K}} + \b
 </ul>
 <p><br></p>
 <div class="fragment">
-<p><strong>Scenario 3: Many covariates</strong></p>
+<p><span class="blue"><strong>Scenario 3: Many covariates</strong></span></p>
 <ul>
 <li>LMM probably feasible</li>
 <li>regularization (e.g., ridge, lasso) may be a good idea</li>
 </ul>
 </div>
 </section>
-<section id="conclusion-1" class="slide level2">
+<section id="conclusion4" class="slide level2">
 <h2>Conclusion</h2>
 <p><br></p>
-<p><strong>Scenario 4: Many outcome variables</strong></p>
+<p><span class="blue"><strong>Scenario 4: Many outcome variables</strong></span></p>
 <ul>
 <li>Potentially serious challenges!</li>
 <li>LMM feasible for small <span class="math inline">\(K\)</span> and few random effects terms</li>
@@ -1645,13 +1647,164 @@ y_{ij\color{var(--nord11)}{K}} &amp;=&amp;\beta_{0\color{var(--nord11)}{K}} + \b
 <div class="fragment">
 <p>Alternatives to the full multivariate model:</p>
 <ul>
-<li>stacking the data &amp; use interaction with outcome indicator</li>
-<li>pairwise approach</li>
+<li><a href="#/datastacking">stacking the data</a> &amp; use interaction with outcome indicator</li>
+<li><a href="#/pairwise">pairwise approach</a></li>
 <li>simplify the structure of <span class="math inline">\(\mathbf D\)</span> (e.g., diagonal)</li>
 </ul>
 </div>
 </section>
-<section id="stacking-the-data" class="slide level2">
+<section id="conclusion-1" class="slide level2">
+<h2>Conclusion</h2>
+<p><br></p>
+<p><span class="blue"><strong>Scenario 5: Random Effect Terms</strong></span></p>
+<ul>
+<li>feasible for moderate number of random effects terms (e.g., 10) and sample size (e.g., N = 1000)</li>
+<li>larger models/data may require simplification of <span class="math inline">\(\mathbf D\)</span></li>
+</ul>
+<p><br></p>
+<div class="fragment">
+<p><strong>My Model:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="datatablarge">
+ <thead>
+<tr>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">data</div></th>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">parameters</div></th>
+</tr>
+  <tr>
+   <th style="text-align:left;"> N </th>
+   <th style="text-align:right;"> J </th>
+   <th style="text-align:right;"> K </th>
+   <th style="text-align:left;"> # obs </th>
+   <th style="text-align:right;"> rd </th>
+   <th style="text-align:right;"> \(\# \boldsymbol\beta\) </th>
+   <th style="text-align:right;"> \(\# \sigma\) </th>
+   <th style="text-align:left;"> \(\# \mathbf D\) </th>
+   <th style="text-align:left;"> \(\# \mathbf b\) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1 000 </td>
+   <td style="text-align:right;"> 10000 </td>
+   <td style="text-align:right;background-color: rgba(147, 80, 86, 255) !important;"> 5 </td>
+   <td style="text-align:left;"> 50.0 mil </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:left;color: rgba(211, 116, 125, 255) !important;"> 1 275 </td>
+   <td style="text-align:left;"> 50 000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 000 </td>
+   <td style="text-align:right;"> 10000 </td>
+   <td style="text-align:right;background-color: rgba(147, 80, 86, 255) !important;"> 6 </td>
+   <td style="text-align:left;"> 60.0 mil </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:left;color: rgba(211, 116, 125, 255) !important;"> 1 830 </td>
+   <td style="text-align:left;"> 60 000 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="challenges" class="title-slide slide level1 center" data-background-image="images/balancing.jpg" data-background-size="cover" data-background-color="black" data-background-opacity="0.8">
+<h1>More Challenges!<br>(And Solutions?)</h1>
+
+</section>
+<section id="dynamic-prediction" class="slide level2" data-background-image="images/dynpred_hr_7703.gif" data-background-size="contain" data-background-color="white">
+<h2>Dynamic Prediction</h2>
+</section>
+<section id="estimation-of-the-random-effects" class="slide level2">
+<h2>Estimation of the Random Effects</h2>
+<p><br></p>
+<p><span class="blue"><strong>Empirical Bayes</strong></span> estimate:</p>
+<p><span class="math display">\[\mathbf{\hat b}_i = \widehat{\mathbf D} \mathbf Z_i^\top
+\color{var(--nord11)}{\left(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top + \sigma^2 \mathbf I\right)^{-1}} (\mathbf y_i - \mathbf x_i^\top \boldsymbol{\hat\beta})\]</span></p>
+<p><span class="math inline">\(\mathbf Z_i\)</span> may be (very) large, e.g.&nbsp;20 000 rows</p>
+<p>⇨ <span class="math inline">\(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top\)</span> is also very large!!!</p>
+<div class="fragment">
+<p><br></p>
+<p><strong>For Dynamic Prediction:</strong></p>
+<p>Re-calculate <span class="math inline">\(\mathbf{\hat b}_i\)</span> repeatedly when new data becomes available, say, every 5 minutes.</p>
+</div>
+</section>
+<section id="matrix-inversion" class="slide level2">
+<h2>Matrix Inversion</h2>
+<div class="r-stack">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-39-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-40-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-41-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-solution-kalman-filter" class="slide level2">
+<h2>The Solution: Kalman Filter</h2>
+<p>Update <span class="math inline">\(\mathbf{\hat b}_i\)</span> using the previous estimate:</p>
+<p><span class="math display">\[
+\mathbf{\hat b_i^{(j)}} = \mathbf{\hat b_i^{(j-1)}} + \mathbf K_i^{(j)} \left(\color{var(--nord14)}{\mathbf{\tilde X}_i^{(j)}}\boldsymbol{\hat\beta} -
+\color{var(--nord14)}{\mathbf{\tilde Z}_i^{(j)}} \mathbf{\hat b_i^{(k-1)}}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{\widetilde X}_{i}^{(j)}\)</span> and <span class="math inline">\(\mathbf{\widetilde Z}_{i}^{(j)}\)</span> contain only <span class="green">the new observations</span>, i.e., are small!</p>
+<p><br></p>
+<div class="fragment">
+<div class="fbox">
+<p><strong>Reduction of computation time from 3 months to 7 minutes!!!</strong> (in Julia)</p>
+</div>
+</div>
+<div class="sgrey">
+<p><span class="math display">\[
+\mathbf K^{(j)} = \mathbf{\widehat D}^{(j)} \mathbf{\widetilde Z}_{i}^{(j)\top}
+\left(\mathbf{\widetilde Z}_{i}^{(j)} \mathbf{\widehat D}^{(j)} \mathbf{\widetilde Z}_{i}^{(j)\top} +
+\hat{\sigma}^2
+\mathbf I\right)^{-1}
+\]</span> <span class="math display">\[
+\mathbf{\widehat D}^{(j)} = \left(\mathbf I - \mathbf K^{(j-1)} \mathbf Z_i^{(j-1)}\right)\, \mathbf{\widehat D}^{(j-1)}
+\]</span></p>
+</div>
+</section>
+<section id="non-normal-outcomes" class="slide level2">
+<h2>Non-normal outcomes</h2>
+<ul>
+<li>Generalized Linear Mixed Model (like GLM vs LM)</li>
+<li>no closed-form solution for integrating out random effects</li>
+</ul>
+<div class="fbox">
+<p>Much more computationally intensive!</p>
+</div>
+</section>
+<section id="datastacking" class="slide level2">
 <h2>Stacking the Data</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
@@ -1732,158 +1885,29 @@ y_{ij\color{var(--nord11)}{K}} &amp;=&amp;\beta_{0\color{var(--nord11)}{K}} + \b
 <p><span class="red"><i class="fa-regular fa-frown" aria-label="frown"></i></span> only for outcomes of the same type</p>
 </div></div>
 </div>
+<p><a href="#/conclusion4"><i class="fa-solid fa-arrow-left" aria-label="arrow-left"></i></a></p>
 </section>
-<section id="pairwise-approach" class="slide level2">
-<h2>Pairwise approach</h2>
+<section id="pairwise" class="slide level2">
+<h2>Pairwise Approach</h2>
 <p>Fit models for all pairs of outcomes: <span class="math display">\[(y_1, y_2), (y_1, y_3), (y_2, y_3), \ldots, (y_{K-1}, y_K)\]</span></p>
 <ul>
-<li><p>average parameters estimated in multiple models e.g., <span class="math inline">\(\beta_{11}\)</span> is estimated in <span class="math inline">\((y_1, y_2)\)</span>, <span class="math inline">\((y_1, y_3)\)</span>, …</p></li>
+<li><p>average parameters estimated in multiple models<br> e.g., <span class="math inline">\(\beta_{11}\)</span> is estimated in <span class="math inline">\((y_1, y_2)\)</span>, <span class="math inline">\((y_1, y_3)\)</span>, …</p></li>
 <li><p>Pairwise models can be run in parallel.</p></li>
 <li><p>Doesn’t work in joint models.</p></li>
 </ul>
-</section>
-<section id="conclusion-2" class="slide level2">
-<h2>Conclusion</h2>
-<p><br></p>
-<p><strong>Scenario 5: Random Effect Terms</strong></p>
-<ul>
-<li>feasible for moderate number of random effects terms (e.g., ≤ 10) and sample size (e.g., N = 1000)</li>
-<li>larger models/data may require simplification of <span class="math inline">\(\mathbf D\)</span></li>
-</ul>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<table class="datatab">
- <thead>
-<tr>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">data</div></th>
-<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">parameters</div></th>
-</tr>
-  <tr>
-   <th style="text-align:left;"> N </th>
-   <th style="text-align:right;"> J </th>
-   <th style="text-align:right;"> K </th>
-   <th style="text-align:left;"> # obs </th>
-   <th style="text-align:right;"> rd </th>
-   <th style="text-align:right;"> \(\# \boldsymbol\beta\) </th>
-   <th style="text-align:right;"> \(\# \sigma\) </th>
-   <th style="text-align:left;"> \(\# \mathbf D\) </th>
-   <th style="text-align:left;"> \(\# \mathbf b\) </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> 1 000 </td>
-   <td style="text-align:right;"> 10000 </td>
-   <td style="text-align:right;background-color: rgba(147, 80, 86, 255) !important;"> 5 </td>
-   <td style="text-align:left;"> 50.0 mil </td>
-   <td style="text-align:right;"> 10 </td>
-   <td style="text-align:right;"> 50 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:left;color: rgba(211, 116, 125, 255) !important;"> 1 275 </td>
-   <td style="text-align:left;"> 50 000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 1 000 </td>
-   <td style="text-align:right;"> 10000 </td>
-   <td style="text-align:right;background-color: rgba(147, 80, 86, 255) !important;"> 6 </td>
-   <td style="text-align:left;"> 60.0 mil </td>
-   <td style="text-align:right;"> 10 </td>
-   <td style="text-align:right;"> 60 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:left;color: rgba(211, 116, 125, 255) !important;"> 1 830 </td>
-   <td style="text-align:left;"> 60 000 </td>
-  </tr>
-</tbody>
-</table>
-
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="green"><i class="fa-regular fa-smile" aria-label="smile"></i></span> Bivariate models can be run in parallel.</p>
+</div><div class="column" style="width:50%;">
+<p><span class="red"><i class="fa-regular fa-frown" aria-label="frown"></i></span> Doesn’t work in joint models.</p>
+</div></div>
 </div>
-</div>
+<p><br> <br></p>
+<p><a href="#/conclusion4"><i class="fa-solid fa-arrow-left" aria-label="arrow-left"></i></a></p>
 </section></section>
-<section>
-<section id="more-challenges" class="title-slide slide level1">
-<h1>More Challenges!</h1>
-
-</section>
-<section id="estimation-of-the-random-effects" class="slide level2">
-<h2>Estimation of the Random Effects</h2>
-<p><strong>Empirical Bayes</strong> estimate:</p>
-<p><span class="math display">\[\mathbf{\hat b}_i = \widehat{\mathbf D} \mathbf Z_i^\top \left(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top + \sigma^2 \mathbf I\right)^{-1} (\mathbf y_i - \mathbf x_i^\top \boldsymbol{\hat\beta})\]</span></p>
-<ul>
-<li><span class="math inline">\(\widehat{\mathbf D}\)</span> is a <span class="math inline">\(10 \times 10\)</span> matrix</li>
-<li><span class="math inline">\(\mathbf Z_i\)</span> is a <span class="math inline">\(10\ 000 \times 10\)</span> matrix</li>
-</ul>
-<p>⇨ <span class="math inline">\(\mathbf Z_i \mathbf{\widehat D} \mathbf Z_i^\top\)</span> is <span class="math inline">\(10\ 000 \times 10\ 000\)</span> (or larger)</p>
-</section>
-<section id="matrix-inversion" class="slide level2">
-<h2>Matrix Inversion</h2>
-<div class="r-stack">
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-41-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell fragment" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-42-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell fragment" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="index_files/figure-revealjs/unnamed-chunk-43-1.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="my-data" class="slide level2">
-<h2>My Data</h2>
-
-<img src="images/hrexample.png" id="hr" class="r-stretch"></section>
-<section id="my-model" class="slide level2">
-<h2>My Model</h2>
-<div class="cell" data-layout-align="center">
-<style type="text/css">
-:root {
-  --nord15: #B48EAD;
-  --nord10: #5E81AC;
-  --nord8: #88C0D0;
-  --nord11: #BF616A;
-  --nord14: #A3BE8C;
-}
-
-</style>
-</div>
-<p><span class="math display">\[\begin{align*}
-y_{i}(t) = &amp; \beta_0 + \color{var(--nord15)}{b_{i0}} + (\beta_1 + \color{var(--nord15}{b_{i1}})\; t \;+ \\
-&amp; (\beta_2 + \color{var(--nord15)}{b_{i2}}) \sin\left(2\pi \frac{t\bmod 24}{24}\right) +
-    (\beta_3 + \color{var(--nord15)}{b_{i3}}) \cos\left(2\pi \frac{t\bmod 24}{24}\right) +\\
-&amp; (\beta_4 + \color{var(--nord15)}{b_{i4}}) \sin\left(2\pi \frac{t\bmod 24}{12}\right) +
-  (\beta_5 + \color{var(--nord15)}{b_{i5}}) \cos\left(2\pi \frac{t\bmod 24}{12}\right) +\\
-&amp; (\beta_6 + \color{var(--nord15)}{b_{i6}}) \;t\sin\left(2\pi \frac{t\bmod 24}{24}\right) +
-  (\beta_7 + \color{var(--nord15)}{b_{i7}}) \;t\cos\left(2\pi \frac{t\bmod 24}{24}\right) +\\
-&amp; (\beta_8 + \color{var(--nord15)}{b_{i8}}) \;t\sin\left(2\pi \frac{t\bmod 24}{12}\right) +
-  (\beta_9 + \color{var(--nord15)}{b_{i9}}) \;t\cos\left(2\pi \frac{t\bmod 24}{12}\right) +\\
-&amp; \varepsilon_i(t)
-\end{align*}\]</span></p>
-</section>
-<section id="my-model-1" class="slide level2">
-<h2>My Model</h2>
-
-<img data-src="index_files/figure-revealjs/unnamed-chunk-46-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section></section>
-<section id="thank-you" class="title-slide slide level1 the-end center middle no-footer">
-<h1>Thank You</h1>
+<section id="thank-you-for-your-attention" class="title-slide slide level1 h1section the-end center middle no-footer">
+<h1>Thank You for Your Attention!</h1>
 
 </section>
     </div>
