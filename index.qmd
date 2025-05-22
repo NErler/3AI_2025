@@ -12,7 +12,10 @@ title-slide-attributes:
   data-background-size: cover
   data-background-opacity: "0.3"
 format:
-  revealjs: 
+  revealjs:
+    html-math-method:
+      method: mathjax
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" 
     template-partials:
       - styles/title-slide.html
     center-title-slide: false
@@ -957,7 +960,7 @@ $$\mathbf b_i = \begin{pmatrix} b_{i0\color{var(--nord11)}{1}} \\
   b_{i1\color{var(--nord11)}{1}}\\ \vdots \\ b_{i0\color{var(--nord11)}{K}} \\
   b_{i1\color{var(--nord11)}{K}} \end{pmatrix} \sim N(\mathbf 0, \mathbf D)
 \qquad \text{and}\qquad
-\varepsilon_{ij\color{var(--nord11)}{k}} \sim N(0, \sigma_\color{var(--nord11)}{k}^2 \mathbf I)$$
+\varepsilon_{ij\color{var(--nord11)}{k}} \sim N(0, \sigma_{\color{var(--nord11)}{k}}^2 \mathbf I)$$
 
 
 ## Scenario 4: Number of Outcome Variables
